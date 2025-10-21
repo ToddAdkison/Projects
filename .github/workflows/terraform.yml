@@ -1,20 +1,28 @@
-on: [push]
+name: Azure OIDC Login
 
-name: Run Azure Login With a Service Principal Secret
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-
-  build-and-deploy:
+  demo:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
 
-    - uses: azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Azure CLI script
-      uses: azure/cli@v2
-      with:
-        azcliversion: latest
-        inlineScript: |
-          az account show
+      - name: Azure CLI – whoami
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az account show --output table
