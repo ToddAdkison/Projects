@@ -25,5 +25,4 @@ jobs:
         uses: azure/cli@v2
         with:
           inlineScript: |
-            az account set --subscription "c8413d4c-b5ee-4796-ba39-c389f68ed45c"
             az account show --output table
