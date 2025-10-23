@@ -1,6 +1,9 @@
 name: Azure OIDC Login
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
